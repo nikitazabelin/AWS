@@ -1,0 +1,17 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Condition": {
+          "StringNotEquals": {
+            "s3:x-amz-object-ownership": "BucketOwnerEnforced"
+          }
+        },
+        "Action": ["s3:CreateBucket"],
+        "Resource": "*",
+        "Effect": "Deny",
+        "Sid": "RequireBucketOwnerFullControl"
+      }
+    ]
+  }
+  

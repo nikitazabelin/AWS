@@ -1,0 +1,17 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Condition": {
+          "StringLike": {
+            "aws:PrincipalArn": "arn:aws:iam::*:root"
+          }
+        },
+        "Action": "*",
+        "Resource": "*",
+        "Effect": "Deny",
+        "Sid": "DenyRootUser"
+      }
+    ]
+  }
+  
