@@ -51,7 +51,6 @@ Resources:
 # This template creates a DynamoDB table named NewTable with a primary key composed of two attributes: PK and SK. 
 # Additionally, the table has three more attributes: Name, Age, and Gender. 
 # The AttributeDefinitions section defines the data types of all attributes.
-
 # The template also creates a global secondary index AgeIndex on the Age attribute and a local secondary index GenderIndex on the Gender attribute. 
 # The GlobalSecondaryIndexes and LocalSecondaryIndexes sections define the key schema, projection type, and provisioned throughput for each index. 
 # The projection type of the global secondary index AgeIndex is set to ALL to include all attributes, while the projection type of the local secondary index GenderIndex is set to INCLUDE to include only the Name attribute.
