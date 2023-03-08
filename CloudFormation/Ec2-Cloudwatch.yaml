@@ -1,0 +1,95 @@
+# CloudFormation template that creates CloudWatch alarms for five existing EC2 instances 
+# that are tagged with a specific key-value pair,
+# and sends the alarms to an SNS topic with an email subscription
+Parameters:
+  SNSNotificationEmail:
+    Type: String
+    Description: Email address to receive SNS notifications
+
+Resources:
+  # Create an SNS topic for the alarms
+  MySNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "EC2 Alarms"
+
+  # Create an email subscription for the SNS topic
+  MySNSSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      TopicArn: !Ref MySNSTopic
+      Endpoint: !Ref SNSNotificationEmail
+
+  # Get the ARNs of the EC2 instances that are tagged with 'MyTagKey=MyTagValue'
+  MyEC2InstanceARNs:
+    Type: AWS::EC2::Instance::IdList
+    Properties:
+      Filters:
+        - Name: tag:MyTagKey
+          Values:
+            - MyTagValue
+        - Name: instance-state-name
+          Values:
+            - running
+
+  # Create CloudWatch alarms for the EC2 instances
+  MyEC2InstanceAlarm1:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "MyEC2Instance1StatusCheckFailed"
+      AlarmDescription: "Alarm when the status check for MyEC2Instance1 fails"
+      Namespace: "AWS/EC2"
+      MetricName: "StatusCheckFailed_Instance"
+      Dimensions:
+        - Name: InstanceId
+          Value: !Select [0, !Ref MyEC2InstanceARNs]
+      Statistic: "Maximum"
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: "GreaterThanOrEqualToThreshold"
+      AlarmActions:
+        - !Ref MySNSTopic
+
+  MyEC2InstanceAlarm2:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "MyEC2Instance2StatusCheckFailed"
+      AlarmDescription: "Alarm when the status check for MyEC2Instance2 fails"
+      Namespace: "AWS/EC2"
+      MetricName: "StatusCheckFailed_Instance"
+      Dimensions:
+        - Name: InstanceId
+          Value: !Select [1, !Ref MyEC2InstanceARNs]
+      Statistic: "Maximum"
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: "GreaterThanOrEqualToThreshold"
+      AlarmActions:
+        - !Ref MySNSTopic
+
+  MyEC2InstanceAlarm3:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "MyEC2Instance3CPUUtilization"
+      AlarmDescription: "Alarm when the CPU utilization for MyEC2Instance3 exceeds 70 percent"
+      Namespace: "AWS/EC2"
+      MetricName: "CPUUtilization"
+      Dimensions:
+        - Name: InstanceId
+          Value: !Select [2, !Ref MyEC2InstanceARNs]
+      Statistic: "Average"
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 70
+      ComparisonOperator: "GreaterThanOrEqualToThreshold"
+      AlarmActions:
+        - !Ref MySNSTopic
+
+  MyEC2InstanceAlarm4:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "MyEC2Instance4DiskReadBytes"
+      AlarmDescription: "Alarm when the disk read bytes for MyEC2Instance4 exceed 
