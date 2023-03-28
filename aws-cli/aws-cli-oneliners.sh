@@ -4,6 +4,10 @@ aws configure #configure aws cli
 
 cat /etc/system-release #You can view your version of Amazon Linux using the following command.
 
+aws organizations list-accounts
+
+aws ec2 describe-vpcs --region eu-west-1
+
 
 # Check whether an IP address is part of the CIDRs of your security groups
 # Replace <security-group-id> with the ID of the security group you want to check and <ip-address> with the IP address you want to check. 
