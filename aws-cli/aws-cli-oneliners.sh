@@ -14,3 +14,7 @@ aws ec2 describe-vpcs --region eu-west-1
 # This command will return the CIDRs of the IP ranges allowed by the security group, 
 # and you can use the grep command to check if the IP address you want to check is part of any of those CIDRs.
 aws ec2 describe-security-groups --group-ids <security-group-id> --query 'SecurityGroups[].IpPermissions[].IpRanges[].CidrIp' --output text | grep <ip-address>
+
+aws sts get-caller-identity
+
+export AWS_PROFILE=<Profile name>
