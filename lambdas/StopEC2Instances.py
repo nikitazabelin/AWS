@@ -15,9 +15,9 @@ def lambda_handler(event, context):
         Filters=[{'Name': 'instance-state-name',
                   'Values': ['running']}])
 
-  for instance in instances:
-    instance.stop()
-    print('Stopped instaces: ', instance.id)
+      for instance in instances:
+        instance.stop()
+        print('Stopped instaces: ', instance.id)
 
 
 
