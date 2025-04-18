@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install Datadog Agent
-DD_API_KEY="00000000000000000" DD_SITE="datadoghq.eu" bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
+DD_API_KEY="<dd_api_key>" DD_SITE="datadoghq.us" bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
 
 
 # Enable logs in Datadog
